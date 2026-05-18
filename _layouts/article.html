@@ -10,6 +10,10 @@
 <meta property="og:description" content="{{ page.description }}">
 <meta property="og:type" content="article">
 <meta property="og:url" content="{{ page.url | absolute_url }}">
+<meta property="og:site_name" content="B2B ERP Hub">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="{{ page.title }}">
+<meta name="twitter:description" content="{{ page.description }}">
 {% seo %}
 <script type="application/ld+json">
 {
@@ -19,50 +23,812 @@
   "description": "{{ page.description }}",
   "datePublished": "{{ page.date | date_to_xmlschema }}",
   "dateModified": "{{ page.last_modified_at | default: page.date | date_to_xmlschema }}",
-  "author": {"@type": "Organization", "name": "B2B ERP Hub"},
-  "publisher": {"@type": "Organization", "name": "B2B ERP Hub", "url": "https://b2berp.com"}
+  "author": {"@type": "Organization", "name": "{{ page.author | default: 'B2B ERP Hub' }}"},
+  "publisher": {
+    "@type": "Organization",
+    "name": "B2B ERP Hub",
+    "url": "https://b2berp.com"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "{{ page.url | absolute_url }}"
+  }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://b2berp.com/"},
+    {% if page.category == "compare" %}
+    {"@type": "ListItem", "position": 2, "name": "Comparisons", "item": "https://b2berp.com/compare/"},
+    {% elsif page.category == "guide" %}
+    {"@type": "ListItem", "position": 2, "name": "Guides", "item": "https://b2berp.com/guides/"},
+    {% else %}
+    {"@type": "ListItem", "position": 2, "name": "Articles", "item": "https://b2berp.com/"},
+    {% endif %}
+    {"@type": "ListItem", "position": 3, "name": "{{ page.title }}"}
+  ]
 }
 </script>
 <style>
-*{margin:0;padding:0;box-sizing:border-box}
-body{font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,sans-serif;line-height:1.7;color:#1a1a2e;max-width:800px;margin:0 auto;padding:2rem 1.5rem}
-h1{font-size:2rem;margin-bottom:0.5rem;color:#0f3460}
-h2{font-size:1.5rem;margin:2rem 0 1rem;color:#16213e;padding-top:1rem;border-top:1px solid #eee}
-h3{font-size:1.2rem;margin:1.5rem 0 0.5rem}
-p{margin-bottom:1rem}
-a{color:#e94560;text-decoration:none}
-a:hover{text-decoration:underline}
-nav{margin-bottom:2rem;padding-bottom:1rem;border-bottom:2px solid #0f3460}
-nav a{margin-right:1.5rem;font-weight:600}
-.breadcrumb{font-size:0.85rem;color:#666;margin-bottom:1rem}
-.breadcrumb a{color:#666}
-.meta{font-size:0.85rem;color:#888;margin-bottom:2rem}
-table{width:100%;border-collapse:collapse;margin:1.5rem 0}
-th,td{padding:0.75rem;text-align:left;border:1px solid #ddd}
-th{background:#f5f5f5;font-weight:600}
-tr:nth-child(even){background:#fafafa}
-.verdict{background:#f0f7ff;padding:1.5rem;border-radius:0.5rem;margin:2rem 0;border-left:4px solid #0f3460}
-.cta-box{background:linear-gradient(135deg,#0f3460,#16213e);color:#fff;padding:2rem;border-radius:0.5rem;margin:2rem 0;text-align:center}
-.cta-box a{color:#fff;text-decoration:underline}
-footer{margin-top:3rem;padding-top:1rem;border-top:1px solid #eee;font-size:0.85rem;color:#666}
+/* === RESET & BASE === */
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+html { font-size: 16px; scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  line-height: 1.75;
+  color: #1a1a2e;
+  background: #fff;
+  overflow-x: hidden;
+}
+
+/* === SITE HEADER === */
+.site-header {
+  background: #0f3460;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  box-shadow: 0 2px 8px rgba(15, 52, 96, 0.15);
+}
+.header-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 60px;
+}
+.site-logo {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #fff;
+  text-decoration: none;
+  letter-spacing: -0.02em;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.site-logo:hover { color: #e94560; text-decoration: none; }
+.logo-icon {
+  width: 28px;
+  height: 28px;
+  background: #e94560;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.85rem;
+  font-weight: 800;
+  color: #fff;
+}
+.site-nav { display: flex; align-items: center; gap: 0.25rem; }
+.site-nav a {
+  color: rgba(255,255,255,0.85);
+  text-decoration: none;
+  font-size: 0.9rem;
+  font-weight: 500;
+  padding: 0.5rem 0.85rem;
+  border-radius: 6px;
+  transition: background 0.2s, color 0.2s;
+}
+.site-nav a:hover { background: rgba(255,255,255,0.1); color: #fff; text-decoration: none; }
+
+/* Hamburger */
+.hamburger {
+  display: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.5rem;
+}
+.hamburger span {
+  display: block;
+  width: 22px;
+  height: 2px;
+  background: #fff;
+  margin: 5px 0;
+  border-radius: 2px;
+  transition: transform 0.3s, opacity 0.3s;
+}
+.hamburger.active span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.hamburger.active span:nth-child(2) { opacity: 0; }
+.hamburger.active span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+/* === BREADCRUMB === */
+.breadcrumb-bar {
+  background: #f8f9fb;
+  border-bottom: 1px solid #e8ecf1;
+}
+.breadcrumb {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0.65rem 1.5rem;
+  font-size: 0.8rem;
+  color: #6b7280;
+}
+.breadcrumb a {
+  color: #6b7280;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+.breadcrumb a:hover { color: #e94560; }
+.breadcrumb-sep { margin: 0 0.4rem; color: #c0c5ce; }
+
+/* === LAYOUT GRID === */
+.page-wrapper {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 2rem 1.5rem 3rem;
+  display: grid;
+  grid-template-columns: 1fr 240px;
+  gap: 3rem;
+  align-items: start;
+}
+
+/* === ARTICLE === */
+.article-main { min-width: 0; }
+
+/* Article Header */
+.article-header { margin-bottom: 2rem; padding-bottom: 1.5rem; border-bottom: 1px solid #e8ecf1; }
+.article-category {
+  display: inline-block;
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #e94560;
+  background: rgba(233, 69, 96, 0.08);
+  padding: 0.2rem 0.6rem;
+  border-radius: 3px;
+  margin-bottom: 0.75rem;
+}
+.article-title {
+  font-size: 2.1rem;
+  font-weight: 800;
+  line-height: 1.2;
+  color: #0f3460;
+  letter-spacing: -0.025em;
+  margin-bottom: 0.75rem;
+}
+.article-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  align-items: center;
+  font-size: 0.85rem;
+  color: #6b7280;
+}
+.article-meta-item { display: flex; align-items: center; gap: 0.3rem; }
+.meta-dot { color: #d1d5db; }
+.read-time {
+  background: #f0f4f8;
+  padding: 0.15rem 0.5rem;
+  border-radius: 3px;
+  font-size: 0.78rem;
+}
+
+/* Article Body */
+.article-body {
+  max-width: 720px;
+  font-size: 1.05rem;
+  line-height: 1.8;
+}
+.article-body p { margin-bottom: 1.25rem; }
+.article-body a { color: #e94560; text-decoration: underline; text-decoration-color: rgba(233,69,96,0.3); text-underline-offset: 2px; transition: text-decoration-color 0.2s; }
+.article-body a:hover { text-decoration-color: #e94560; }
+
+/* Headings */
+.article-body h2 {
+  font-size: 1.55rem;
+  font-weight: 700;
+  color: #0f3460;
+  margin: 2.5rem 0 1rem;
+  padding-top: 1.5rem;
+  border-top: 2px solid #f0f4f8;
+  letter-spacing: -0.015em;
+  line-height: 1.3;
+}
+.article-body h2:first-child { border-top: none; padding-top: 0; margin-top: 0; }
+.article-body h3 {
+  font-size: 1.25rem;
+  font-weight: 650;
+  color: #16213e;
+  margin: 2rem 0 0.75rem;
+  line-height: 1.35;
+}
+.article-body h4 {
+  font-size: 1.05rem;
+  font-weight: 650;
+  color: #1a1a2e;
+  margin: 1.5rem 0 0.5rem;
+  line-height: 1.4;
+}
+
+/* Lists */
+.article-body ul, .article-body ol {
+  margin: 0 0 1.25rem 1.25rem;
+  padding-left: 0.5rem;
+}
+.article-body li {
+  margin-bottom: 0.4rem;
+  line-height: 1.7;
+}
+.article-body li::marker { color: #0f3460; }
+
+/* Tables */
+.article-body table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1.75rem 0;
+  font-size: 0.92rem;
+  line-height: 1.5;
+  border: 1px solid #d1d8e0;
+  border-radius: 8px;
+  overflow: hidden;
+}
+.article-body thead th {
+  background: #0f3460;
+  color: #fff;
+  font-weight: 600;
+  text-align: left;
+  padding: 0.75rem 1rem;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  border-bottom: 2px solid #0a264a;
+}
+.article-body tbody td {
+  padding: 0.7rem 1rem;
+  border-bottom: 1px solid #e8ecf1;
+  vertical-align: top;
+}
+.article-body tbody tr:nth-child(even) { background: #f8f9fb; }
+.article-body tbody tr:hover { background: #f0f4f8; }
+.article-body tbody tr:last-child td { border-bottom: none; }
+
+/* Table wrapper for overflow */
+.table-wrap { overflow-x: auto; margin: 1.75rem 0; -webkit-overflow-scrolling: touch; }
+.table-wrap table { margin: 0; }
+
+/* Blockquotes */
+.article-body blockquote {
+  border-left: 4px solid #0f3460;
+  background: #f0f4f8;
+  margin: 1.75rem 0;
+  padding: 1.25rem 1.5rem;
+  border-radius: 0 6px 6px 0;
+  font-style: italic;
+  color: #374151;
+}
+.article-body blockquote p { margin-bottom: 0; }
+.article-body blockquote p + p { margin-top: 0.75rem; }
+
+/* Code */
+.article-body code {
+  background: #f0f4f8;
+  padding: 0.15rem 0.4rem;
+  border-radius: 3px;
+  font-size: 0.88em;
+  font-family: 'SF Mono', SFMono-Regular, Consolas, 'Liberation Mono', Menlo, monospace;
+}
+.article-body pre {
+  background: #1a1a2e;
+  color: #e8ecf1;
+  padding: 1.25rem 1.5rem;
+  border-radius: 8px;
+  overflow-x: auto;
+  margin: 1.5rem 0;
+  font-size: 0.88rem;
+  line-height: 1.6;
+}
+.article-body pre code {
+  background: none;
+  padding: 0;
+  color: inherit;
+  font-size: inherit;
+}
+
+/* CTA Box / Callout */
+.article-body .cta-box, .cta-box {
+  background: linear-gradient(135deg, #0f3460 0%, #16213e 100%);
+  color: #fff;
+  padding: 2rem 2rem;
+  border-radius: 10px;
+  margin: 2rem 0;
+  text-align: center;
+  box-shadow: 0 4px 15px rgba(15, 52, 96, 0.2);
+}
+.cta-box h3, .cta-box h4 {
+  color: #fff;
+  margin-top: 0;
+  font-size: 1.2rem;
+  margin-bottom: 0.5rem;
+}
+.cta-box p { color: rgba(255,255,255,0.9); margin-bottom: 0.5rem; }
+.cta-box a {
+  color: #fff;
+  display: inline-block;
+  background: #e94560;
+  padding: 0.6rem 1.5rem;
+  border-radius: 6px;
+  font-weight: 600;
+  text-decoration: none;
+  margin-top: 0.5rem;
+  transition: background 0.2s, transform 0.15s;
+}
+.cta-box a:hover { background: #d63851; transform: translateY(-1px); text-decoration: none; }
+
+/* Verdict / Summary Box */
+.article-body .verdict, .verdict {
+  background: #f0f4f8;
+  border-left: 5px solid #0f3460;
+  padding: 1.5rem 1.75rem;
+  border-radius: 0 8px 8px 0;
+  margin: 2rem 0;
+}
+.verdict h3, .verdict h4 { color: #0f3460; margin-top: 0; }
+
+/* Callout boxes */
+.article-body .callout, .callout {
+  border: 1px solid #e8ecf1;
+  border-radius: 8px;
+  padding: 1.25rem 1.5rem;
+  margin: 1.75rem 0;
+  background: #fffbf0;
+  border-left: 4px solid #f59e0b;
+}
+.callout-info {
+  background: #f0f7ff;
+  border-left-color: #3b82f6;
+}
+.callout-success {
+  background: #f0fdf4;
+  border-left-color: #22c55e;
+}
+.callout-warning {
+  background: #fffbf0;
+  border-left-color: #f59e0b;
+}
+
+/* Strong emphasis */
+.article-body strong { color: #0f3460; font-weight: 650; }
+
+/* Horizontal rule */
+.article-body hr {
+  border: none;
+  border-top: 2px solid #f0f4f8;
+  margin: 2.5rem 0;
+}
+
+/* Images */
+.article-body img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+  margin: 1.5rem 0;
+}
+
+/* === TABLE OF CONTENTS SIDEBAR === */
+.toc-sidebar {
+  position: sticky;
+  top: 80px;
+  max-height: calc(100vh - 100px);
+  overflow-y: auto;
+  padding: 1.25rem;
+  background: #f8f9fb;
+  border-radius: 10px;
+  border: 1px solid #e8ecf1;
+}
+.toc-sidebar::-webkit-scrollbar { width: 3px; }
+.toc-sidebar::-webkit-scrollbar-thumb { background: #d1d5db; border-radius: 3px; }
+.toc-label {
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: #6b7280;
+  margin-bottom: 0.75rem;
+}
+.toc-list { list-style: none; }
+.toc-list li { margin-bottom: 0.2rem; }
+.toc-list a {
+  display: block;
+  font-size: 0.82rem;
+  color: #4b5563;
+  text-decoration: none;
+  padding: 0.25rem 0.5rem;
+  border-left: 2px solid transparent;
+  border-radius: 0 4px 4px 0;
+  line-height: 1.4;
+  transition: all 0.2s;
+}
+.toc-list a:hover { color: #0f3460; background: #fff; border-left-color: #0f3460; }
+.toc-list a.active { color: #0f3460; background: #fff; border-left-color: #e94560; font-weight: 600; }
+.toc-list .toc-h3 { padding-left: 1.1rem; font-size: 0.78rem; }
+
+/* === TAGS === */
+.article-tags { margin-top: 2rem; padding-top: 1.5rem; border-top: 1px solid #e8ecf1; display: flex; flex-wrap: wrap; gap: 0.4rem; }
+.tag-pill {
+  font-size: 0.72rem;
+  background: #f0f4f8;
+  color: #4b5563;
+  padding: 0.2rem 0.6rem;
+  border-radius: 20px;
+  text-decoration: none;
+  transition: background 0.2s;
+}
+.tag-pill:hover { background: #e8ecf1; color: #0f3460; text-decoration: none; }
+
+/* === RELATED ARTICLES === */
+.related-section {
+  margin-top: 3rem;
+  padding-top: 2rem;
+  border-top: 2px solid #f0f4f8;
+}
+.related-section h2 {
+  font-size: 1.3rem;
+  color: #0f3460;
+  font-weight: 700;
+  margin-bottom: 1.25rem;
+}
+.related-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1rem;
+}
+.related-card {
+  border: 1px solid #e8ecf1;
+  border-radius: 8px;
+  padding: 1.25rem;
+  transition: box-shadow 0.2s, border-color 0.2s;
+  text-decoration: none;
+  display: block;
+}
+.related-card:hover { box-shadow: 0 4px 12px rgba(15, 52, 96, 0.08); border-color: #0f3460; text-decoration: none; }
+.related-card-title {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #0f3460;
+  line-height: 1.35;
+  margin-bottom: 0.4rem;
+}
+.related-card-desc {
+  font-size: 0.82rem;
+  color: #6b7280;
+  line-height: 1.5;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* === FOOTER === */
+.site-footer {
+  background: #0f3460;
+  color: rgba(255,255,255,0.7);
+  margin-top: 3rem;
+}
+.footer-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 2.5rem 1.5rem;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 2rem;
+}
+.footer-section h4 {
+  color: #fff;
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin-bottom: 0.75rem;
+}
+.footer-section a {
+  display: block;
+  color: rgba(255,255,255,0.6);
+  text-decoration: none;
+  font-size: 0.88rem;
+  padding: 0.2rem 0;
+  transition: color 0.2s;
+}
+.footer-section a:hover { color: #e94560; }
+.footer-bottom {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 1.25rem 1.5rem;
+  border-top: 1px solid rgba(255,255,255,0.1);
+  font-size: 0.8rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* === MOBILE RESPONSIVE === */
+@media (max-width: 900px) {
+  .page-wrapper {
+    grid-template-columns: 1fr;
+    gap: 0;
+    padding: 1.25rem 1rem 2rem;
+  }
+  .toc-sidebar {
+    position: static;
+    max-height: none;
+    margin-bottom: 2rem;
+    order: -1;
+  }
+  .article-title { font-size: 1.7rem; }
+  .related-grid { grid-template-columns: 1fr; }
+  .footer-inner { grid-template-columns: 1fr; gap: 1.5rem; }
+  .footer-bottom { flex-direction: column; gap: 0.5rem; text-align: center; }
+}
+
+@media (max-width: 640px) {
+  .site-nav {
+    display: none;
+    position: absolute;
+    top: 60px;
+    left: 0;
+    right: 0;
+    background: #0f3460;
+    flex-direction: column;
+    padding: 0.5rem 0;
+    border-top: 1px solid rgba(255,255,255,0.1);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+  }
+  .site-nav.open { display: flex; }
+  .site-nav a { padding: 0.75rem 1.5rem; }
+  .hamburger { display: block; }
+  .header-inner { padding: 0 1rem; }
+  .article-title { font-size: 1.5rem; }
+  .article-body { font-size: 1rem; }
+  .article-body h2 { font-size: 1.35rem; }
+  .article-body h3 { font-size: 1.1rem; }
+  .article-body table { font-size: 0.82rem; }
+  .article-body thead th { padding: 0.6rem 0.65rem; font-size: 0.75rem; }
+  .article-body tbody td { padding: 0.55rem 0.65rem; }
+  .breadcrumb { padding: 0.5rem 1rem; }
+  .cta-box { padding: 1.5rem 1.25rem; }
+}
 </style>
 </head>
 <body>
-<nav>
-<a href="/">B2B ERP Hub</a>
-<a href="/compare/">Comparisons</a>
-<a href="/guides/">Guides</a>
-</nav>
-<div class="breadcrumb">
-<a href="/">Home</a> &rsaquo;
-{% if page.category == "compare" %}<a href="/compare/">Comparisons</a>{% elsif page.category == "guide" %}<a href="/guides/">Guides</a>{% else %}<a href="/">Articles</a>{% endif %} &rsaquo;
-{{ page.title }}
+
+<!-- ===== HEADER ===== -->
+<header class="site-header">
+  <div class="header-inner">
+    <a href="/" class="site-logo">
+      <span class="logo-icon">B2</span>
+      B2B ERP Hub
+    </a>
+    <button class="hamburger" id="hamburger" aria-label="Toggle navigation">
+      <span></span><span></span><span></span>
+    </button>
+    <nav class="site-nav" id="siteNav">
+      <a href="/">Home</a>
+      <a href="/compare/">Comparisons</a>
+      <a href="/guides/">Guides</a>
+    </nav>
+  </div>
+</header>
+
+<!-- ===== BREADCRUMB ===== -->
+<div class="breadcrumb-bar">
+  <div class="breadcrumb">
+    <a href="/">Home</a>
+    <span class="breadcrumb-sep">/</span>
+    {% if page.category == "compare" %}
+      <a href="/compare/">Comparisons</a>
+    {% elsif page.category == "guide" %}
+      <a href="/guides/">Guides</a>
+    {% else %}
+      <a href="/">Articles</a>
+    {% endif %}
+    <span class="breadcrumb-sep">/</span>
+    <span>{{ page.title }}</span>
+  </div>
 </div>
-<article>
-<h1>{{ page.title }}</h1>
-<div class="meta">{{ page.date | date: "%B %d, %Y" }} &bull; {{ content | number_of_words | divided_by: 200 | plus: 1 }} min read</div>
-{{ content }}
-</article>
-<footer>&copy; 2026 b2berp.com. Independent ERP comparisons.</footer>
+
+<!-- ===== PAGE LAYOUT ===== -->
+<div class="page-wrapper">
+
+  <!-- Main Article -->
+  <main class="article-main">
+    <article>
+      <header class="article-header">
+        {% if page.category %}
+          <span class="article-category">
+            {% if page.category == "compare" %}Comparison{% elsif page.category == "guide" %}Guide{% else %}{{ page.category }}{% endif %}
+          </span>
+        {% endif %}
+        <h1 class="article-title">{{ page.title }}</h1>
+        <div class="article-meta">
+          <span class="article-meta-item">{{ page.author | default: "B2B ERP Hub" }}</span>
+          <span class="meta-dot">&middot;</span>
+          <span class="article-meta-item">{{ page.date | date: "%B %d, %Y" }}</span>
+          <span class="meta-dot">&middot;</span>
+          <span class="read-time">{{ content | number_of_words | divided_by: 200 | plus: 1 }} min read</span>
+        </div>
+      </header>
+
+      <div class="article-body" id="articleBody">
+        {{ content }}
+      </div>
+
+      {% if page.tags and page.tags.size > 0 %}
+      <div class="article-tags">
+        {% for tag in page.tags %}
+          <span class="tag-pill">{{ tag }}</span>
+        {% endfor %}
+      </div>
+      {% endif %}
+    </article>
+
+    <!-- Related Articles -->
+    {% assign related_posts = site.pages | where: "layout", "article" | where: "category", page.category | sort: "date" | reverse %}
+    {% assign related_count = 0 %}
+    {% assign has_related = false %}
+    {% for post in related_posts %}
+      {% if post.url != page.url and related_count < 3 %}
+        {% assign has_related = true %}
+        {% assign related_count = related_count | plus: 1 %}
+      {% endif %}
+    {% endfor %}
+
+    {% if has_related %}
+    <section class="related-section">
+      <h2>Related Articles</h2>
+      <div class="related-grid">
+        {% assign related_count = 0 %}
+        {% for post in related_posts %}
+          {% if post.url != page.url and related_count < 3 %}
+            <a href="{{ post.url }}" class="related-card">
+              <div class="related-card-title">{{ post.title }}</div>
+              {% if post.description %}
+                <div class="related-card-desc">{{ post.description }}</div>
+              {% endif %}
+            </a>
+            {% assign related_count = related_count | plus: 1 %}
+          {% endif %}
+        {% endfor %}
+      </div>
+    </section>
+    {% endif %}
+  </main>
+
+  <!-- Table of Contents Sidebar -->
+  <aside class="toc-sidebar" id="tocSidebar">
+    <div class="toc-label">On This Page</div>
+    <ul class="toc-list" id="tocList">
+      <!-- Populated by JS -->
+    </ul>
+  </aside>
+</div>
+
+<!-- ===== FOOTER ===== -->
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-section">
+      <h4>B2B ERP Hub</h4>
+      <p style="font-size:0.85rem;color:rgba(255,255,255,0.5);line-height:1.6;">Independent ERP comparisons and guides for mid-market businesses.</p>
+    </div>
+    <div class="footer-section">
+      <h4>Navigate</h4>
+      <a href="/">Home</a>
+      <a href="/compare/">ERP Comparisons</a>
+      <a href="/guides/">Implementation Guides</a>
+    </div>
+    <div class="footer-section">
+      <h4>Top Comparisons</h4>
+      <a href="/compare/acumatica-vs-netsuite/">Acumatica vs NetSuite</a>
+      <a href="/compare/sap-vs-oracle/">SAP vs Oracle</a>
+      <a href="/compare/">View All</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>&copy; {{ "now" | date: "%Y" }} b2berp.com. Independent ERP comparisons.</span>
+    <span>All trademarks belong to their respective owners.</span>
+  </div>
+</footer>
+
+<!-- ===== SCRIPTS ===== -->
+<script>
+(function() {
+  "use strict";
+
+  /* Hamburger toggle */
+  var hamburger = document.getElementById("hamburger");
+  var siteNav = document.getElementById("siteNav");
+  if (hamburger && siteNav) {
+    hamburger.addEventListener("click", function() {
+      hamburger.classList.toggle("active");
+      siteNav.classList.toggle("open");
+    });
+  }
+
+  /* Auto-generate Table of Contents */
+  var articleBody = document.getElementById("articleBody");
+  var tocList = document.getElementById("tocList");
+  var tocSidebar = document.getElementById("tocSidebar");
+  if (articleBody && tocList) {
+    var headings = articleBody.querySelectorAll("h2, h3");
+    if (headings.length < 2) {
+      /* Hide TOC if fewer than 2 headings */
+      if (tocSidebar) { tocSidebar.style.display = "none"; }
+    } else {
+      var fragment = document.createDocumentFragment();
+      for (var i = 0; i < headings.length; i++) {
+        var heading = headings[i];
+        var id = "section-" + i;
+        heading.id = id;
+        var li = document.createElement("li");
+        var a = document.createElement("a");
+        a.href = "#" + id;
+        a.textContent = heading.textContent;
+        if (heading.tagName === "H3") {
+          a.classList.add("toc-h3");
+        }
+        li.appendChild(a);
+        fragment.appendChild(li);
+      }
+      tocList.appendChild(fragment);
+
+      /* Scroll-spy: highlight active TOC link */
+      var tocLinks = tocList.querySelectorAll("a");
+      var headingOffsets = [];
+      function calcOffsets() {
+        headingOffsets = [];
+        for (var j = 0; j < headings.length; j++) {
+          headingOffsets.push(headings[j].offsetTop);
+        }
+      }
+      calcOffsets();
+      var resizeTimer = null;
+      window.addEventListener("resize", function() {
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(calcOffsets, 200);
+      });
+
+      var scrollTimer = null;
+      window.addEventListener("scroll", function() {
+        if (scrollTimer) { return; }
+        scrollTimer = setTimeout(function() {
+          scrollTimer = null;
+          var scrollPos = window.scrollY + 100;
+          var activeIdx = 0;
+          for (var k = 0; k < headingOffsets.length; k++) {
+            if (scrollPos >= headingOffsets[k]) {
+              activeIdx = k;
+            }
+          }
+          for (var m = 0; m < tocLinks.length; m++) {
+            tocLinks[m].classList.remove("active");
+          }
+          if (tocLinks[activeIdx]) {
+            tocLinks[activeIdx].classList.add("active");
+          }
+        }, 50);
+      });
+    }
+  }
+
+  /* Wrap tables for horizontal scroll on mobile */
+  if (articleBody) {
+    var tables = articleBody.querySelectorAll("table");
+    for (var t = 0; t < tables.length; t++) {
+      var table = tables[t];
+      if (!table.parentElement.classList.contains("table-wrap")) {
+        var wrapper = document.createElement("div");
+        wrapper.className = "table-wrap";
+        table.parentNode.insertBefore(wrapper, table);
+        wrapper.appendChild(table);
+      }
+    }
+  }
+})();
+</script>
 </body>
 </html>
