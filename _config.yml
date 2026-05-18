@@ -1,0 +1,16 @@
+title: B2B ERP Comparison Hub
+description: "Independent B2B ERP software comparisons, reviews, and guides. Find the right ERP for your business."
+baseurl: ""
+url: "https://b2berp.com"
+markdown: kramdown
+permalink: /:title/
+plugins:
+  - jekyll-sitemap
+  - jekyll-seo-tag
+exclude:
+  - scripts/
+  - "*.sh"
+  - node_modules/
+  - README.md
+  - Gemfile
+  - Gemfile.lock
