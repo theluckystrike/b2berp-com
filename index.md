@@ -1,7 +1,7 @@
 ---
 layout: default
 title: "B2B ERP Software Comparisons & Reviews"
-description: "Independent side-by-side comparisons of 50+ B2B ERP platforms. SAP vs Oracle, NetSuite vs Dynamics 365, and more."
+description: "Independent side-by-side comparisons of 50+ B2B ERP platforms. SAP vs Oracle, NetSuite vs Dynamics 365, and more. 28 in-depth articles."
 permalink: /
 ---
 
@@ -9,29 +9,38 @@ permalink: /
 
 Find the right ERP for your business. Independent, unbiased comparisons of enterprise resource planning platforms.
 
-## Latest Articles
-
-- [SAP vs Oracle ERP: Complete Comparison 2026](/compare/sap-vs-oracle-erp/)
-- [NetSuite vs Microsoft Dynamics 365](/compare/netsuite-vs-dynamics-365/)
-- [Odoo vs ERPNext: Open Source ERP Comparison 2026](/compare/odoo-vs-erpnext/)
-- [Best ERP Software for Small Business 2026](/guides/best-erp-small-business/)
-- [ERP Implementation Cost Guide 2026](/guides/erp-implementation-cost-guide/)
-
 ## Featured Comparisons
 
 Head-to-head ERP reviews covering features, pricing, and implementation.
 
-- [SAP vs Oracle ERP](/compare/sap-vs-oracle-erp/) -- The enterprise heavyweight matchup
+- [SAP vs Oracle ERP: Complete Comparison 2026](/compare/sap-vs-oracle-erp/) -- The enterprise heavyweight matchup
 - [NetSuite vs Dynamics 365](/compare/netsuite-vs-dynamics-365/) -- Mid-market cloud ERP leaders
+- [SAP S/4HANA vs Oracle Cloud ERP](/compare/sap-s4hana-vs-oracle-cloud-erp/) -- Next-gen enterprise platforms
+- [Sage Intacct vs NetSuite](/compare/sage-intacct-vs-netsuite/) -- Mid-market financials face-off
+- [Epicor vs Infor Manufacturing](/compare/epicor-vs-infor-manufacturing/) -- Manufacturing ERP heavyweights
+- [Workday vs SAP SuccessFactors](/compare/workday-vs-sap-successfactors/) -- HCM-to-ERP showdown
 - [Odoo vs ERPNext](/compare/odoo-vs-erpnext/) -- Open source ERP face-off
+- [Acumatica vs NetSuite](/compare/acumatica-vs-netsuite/) -- Cloud ERP for growing companies
 
-[Browse all comparisons &rarr;](/compare/)
+[Browse all 23 comparisons &rarr;](/compare/)
 
-## ERP Guides
+## ERP Buying Guides
 
 Buying guides, implementation planning, and cost breakdowns.
 
-- [Best ERP for Small Business](/guides/best-erp-small-business/) -- Top 5 platforms ranked
-- [ERP Implementation Cost Guide](/guides/erp-implementation-cost-guide/) -- What to budget in 2026
+- [Best ERP for Small Business 2026](/guides/best-erp-small-business/) -- Top platforms ranked
+- [Best Cloud ERP for Manufacturing 2026](/guides/best-erp-manufacturing/) -- 10 systems compared
+- [ERP Implementation Cost Guide 2026](/guides/erp-implementation-cost-guide/) -- What to budget
+- [ERP Selection Checklist for CFOs](/guides/erp-selection-checklist/) -- Complete evaluation framework
+- [Cloud vs On-Premise ERP](/guides/cloud-vs-on-premise-erp/) -- Deployment decision guide
 
-[Browse all guides &rarr;](/guides/)
+[Browse all 5 guides &rarr;](/guides/)
+
+## Latest Articles
+
+- [Deltek vs Dynamics for Government Contractors](/compare/deltek-vs-dynamics-government/)
+- [Plex vs Epicor for Smart Manufacturing](/compare/plex-vs-epicor-smart-manufacturing/)
+- [Rootstock vs NetSuite Manufacturing](/compare/rootstock-vs-netsuite-manufacturing/)
+- [Cetec vs JobScope for Job Shops](/compare/cetec-vs-jobscope-job-shops/)
+- [Unit4 vs Workday for Professional Services](/compare/unit4-vs-workday-professional-services/)
+- [abas vs proALPHA Manufacturing](/compare/abas-vs-proalpha-manufacturing/)
