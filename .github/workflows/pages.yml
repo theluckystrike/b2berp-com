@@ -19,20 +19,20 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
       - name: Setup Ruby
-        uses: ruby/setup-ruby@v1
+        uses: ruby/setup-ruby@b1da4809b005e0178fe08a1d57317bffc00b7b4c # v1
         with:
           ruby-version: '3.3'
           bundler-cache: true
       - name: Setup Pages
-        uses: actions/configure-pages@v4
+        uses: actions/configure-pages@1f0c5cde4bc74cd7e1254d0cb4de8d49e9068c7d # v4
       - name: Build with Jekyll
         run: bundle exec jekyll build
         env:
           JEKYLL_ENV: production
       - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
+        uses: actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa # v3
 
   deploy:
     environment:
@@ -43,4 +43,59 @@ jobs:
     steps:
       - name: Deploy to GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@v4
+        uses: actions/deploy-pages@d6db90164ac5ed86f2b6aed7e0febac5b3c0c03e # v4
+
+  deploy_cloudflare:
+    name: Deploy the same Pages artifact to Cloudflare
+    if: (github.event_name == 'push' || github.event_name == 'workflow_dispatch') && github.ref == 'refs/heads/main' && github.repository == 'theluckystrike/b2berp-com'
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      actions: read
+    steps:
+      - name: Download this run's rendered Pages artifact
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
+        with:
+          name: github-pages
+          path: _pages_artifact
+      - name: Extract the rendered site without changing its files
+        run: |
+          python3 - <<'PYTHON'
+          from pathlib import Path, PurePosixPath
+          import shutil
+          import tarfile
+
+          root = Path('_pages_site')
+          root.mkdir()
+          with tarfile.open('_pages_artifact/artifact.tar') as archive:
+              for member in archive:
+                  path = PurePosixPath(member.name)
+                  if path.is_absolute() or '..' in path.parts or not (member.isdir() or member.isfile()):
+                      raise SystemExit('Unsafe Pages artifact entry')
+                  target = root.joinpath(*path.parts)
+                  if member.isdir():
+                      target.mkdir(parents=True, exist_ok=True)
+                      continue
+                  target.parent.mkdir(parents=True, exist_ok=True)
+                  with archive.extractfile(member) as source, target.open('wb') as output:
+                      shutil.copyfileobj(source, output)
+          if not (root / 'index.html').is_file():
+              raise SystemExit('Pages artifact has no index.html')
+          PYTHON
+      - name: Deploy the exact rendered artifact to Cloudflare Pages
+        uses: cloudflare/wrangler-action@9acf94ace14e7dc412b076f2c5c20b8ce93c79cd # v3
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_PAGES_DEPLOY_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ vars.CLOUDFLARE_ACCOUNT_ID }}
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_PAGES_DEPLOY_TOKEN }}
+          accountId: ${{ vars.CLOUDFLARE_ACCOUNT_ID }}
+          wranglerVersion: '4.80.0'
+          packageManager: npm
+          command: >-
+            pages deploy _pages_site
+            --project-name=b2berp-ssl-recovery
+            --branch=main
+            --commit-hash=${{ github.sha }}
+            --commit-dirty=true
