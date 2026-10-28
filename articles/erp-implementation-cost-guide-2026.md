@@ -194,6 +194,8 @@ ERP returns are real but slow. Organizations expecting immediate payback will be
 
 **Benchmark:** The average mid-market ERP achieves full payback in 2.5-3.5 years. Enterprise implementations take 3-5 years but deliver proportionally larger absolute returns due to scale.
 
+Licensing is only one part of the bill. See [how ERP subscription pricing per user works](/guides/erp-subscription-pricing-per-user/) before you build the five-year model.
+
 ## Frequently Asked Questions
 
 ### How much does a typical mid-market ERP implementation cost?
