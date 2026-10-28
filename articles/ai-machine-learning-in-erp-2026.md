@@ -3,6 +3,8 @@ layout: article
 title: "AI and Machine Learning in ERP: Features That Actually Matter in 2026"
 description: "Separating real AI capabilities from marketing hype in ERP systems. Expert analysis of demand forecasting, anomaly detection, intelligent automation, and predictive maintenance across SAP, Oracle, Microsoft, Infor, and more."
 date: 2026-05-18
+last_modified_at: 2026-10-28
+answer: "This guide separates real AI in ERP from marketing claims. It evaluates four areas where machine learning produces measurable results: demand forecasting, anomaly detection, intelligent automation and predictive maintenance. It explains how to test vendor capability during selection instead of accepting slide-deck promises."
 author: B2B ERP Editorial Team
 category: guide
 categories: [Buying Guides]

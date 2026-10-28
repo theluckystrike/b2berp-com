@@ -155,3 +155,5 @@ ERP incidents require a dedicated response plan. The blast radius is larger than
 - **Incident response must be ERP-specific.** Generic IT playbooks do not account for the unique blast radius of ERP breaches.
 
 The organizations that treat ERP security as a continuous discipline are the ones that pass their audits, avoid breaches, and maintain the trust of their customers, employees, and regulators.
+
+Data protection does not end at the contract. See [who owns your ERP data and how to plan an exit](/guides/erp-data-ownership-and-exit/).

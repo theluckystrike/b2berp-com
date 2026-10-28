@@ -169,6 +169,8 @@ Go-live is not the finish line. Verification runs for 30-90 days.
 
 **Ignoring post-migration verification.** Data errors not caught in 30 days become embedded in new transactions and grow exponentially harder to fix.
 
+If your cutover plan needs a safety net, read [how to run two ERP systems in parallel](/guides/running-two-erp-systems-in-parallel/).
+
 ## Frequently Asked Questions
 
 **How long does ERP data migration take?**
